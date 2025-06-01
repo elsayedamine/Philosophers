@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 22:03:12 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:31:31 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ typedef struct s_table
 }					t_table;
 
 int	myatoi(char *str);
-int	init_simulation_data(t_table *table, int ac, char **av);
+int	simulation_init(t_table *table, int ac, char **av);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 22:30:36 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:31:35 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	init_simulation_data(t_table *table, int ac, char **av)
+int	simulation_init(t_table *table, int ac, char **av)
 {
 	if (init_table(table, ac, av))
 		return (FALSE);
