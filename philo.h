@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 21:46:12 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:03:12 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	long			last_meal_time;
+	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	struct s_table	*table;

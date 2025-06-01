@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_simulation_data.c                             :+:      :+:    :+:   */
+/*   simulation_init.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 21:52:11 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:30:36 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,46 @@ int	init_philos	(t_table *table)
 	return (TRUE);
 }
 
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
 int	init_simulation_data(t_table *table, int ac, char **av)
 {
 	if (init_table(table, ac, av))
 		return (FALSE);
 	if (init_philos(table))
 		return (FALSE);
-	// if (create_threads(table))
-		// return (FALSE);
+	if (create_threads(table))
+		return (FALSE);
 	return (TRUE);
+}
+
+void	*routine(void)
+{
+	// does nothing now 
+	// but it will use to run the routine of each philo
+}
+
+int	create_threads(t_table *table)
+{
+	int	i;
+
+	table->start_time = get_time();
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		table->philos[i].last_meal_time = table->start_time;
+		if (pthread_create(&table->philos[i].thread_id, NULL, routine, &table->philos[i++]))
+			return (table->someone_died = TRUE, destroy_table(table, \
+				table->nb_philo, table->nb_philo), FALSE);
+	}
+		// idk if i ma going to use a monitor thread or not
+		// but this is where i will create its thread
+		// the  is hould while on the philos (threads) and detach them ?
+	return (TRUE);	
 }
