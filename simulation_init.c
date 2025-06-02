@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 22:31:35 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:29:25 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	destroy_table(t_table *table, int count, int philo_count)
 {
 	int i;
+	int	end;
 
 	i = 0;
 	while (i < count)
@@ -24,16 +25,23 @@ int	destroy_table(t_table *table, int count, int philo_count)
 		pthread_mutex_destroy(&table->print_lock);
 	if (table->cleanup >= 2)
 		pthread_mutex_destroy(&table->death_lock);
-	if (table->cleanup == 3 && table->philos)
+	if (table->cleanup >= 3 && table->philos)
 		free(table->philos);
 	i = 0;
 	if (table->cleanup >= 4)
+	{
+		end = (table->cleanup > 4) * \
+			table->nb_philo + (table->cleanup == 4) + philo_count;
 		while (i < philo_count)
 			pthread_mutex_destroy(&table->philos[i++].meal_lock);
-	i = 0;
-	if (table->cleanup >= 4)
+		i = 0;
 		while (i < philo_count)
 			pthread_mutex_destroy(&table->philos[i++].eat_lock);
+	}
+	i = 0;
+	if (table->cleanup >= 5)
+		while (i < philo_count)
+			pthread_join(table->philos[i++].thread_id, NULL);
 	return (FALSE);
 }
 
@@ -85,51 +93,45 @@ int	init_philos	(t_table *table)
 			return (destroy_table(table, table->nb_philo, table->itr));
 		if (pthread_mutex_init(&table->philos[table->itr].eat_lock, NULL))
 			return (destroy_table(table, table->nb_philo, table->itr));
+		if (pthread_mutex_init(&table->meal_check, NULL))
+			return (destroy_table(table, table->nb_philo, table->itr));
+		// adjust cleanup var for this new mutex_init
 		table->itr++;
 	}
 	return (TRUE);
 }
 
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-int	simulation_init(t_table *table, int ac, char **av)
-{
-	if (init_table(table, ac, av))
-		return (FALSE);
-	if (init_philos(table))
-		return (FALSE);
-	if (create_threads(table))
-		return (FALSE);
-	return (TRUE);
-}
-
-void	*routine(void)
-{
-	// does nothing now 
-	// but it will use to run the routine of each philo
-}
-
-int	create_threads(t_table *table)
+int	simulation(t_table *table)
 {
 	int	i;
 
 	table->start_time = get_time();
 	i = 0;
+	table->cleanup++;
 	while (i < table->nb_philo)
 	{
-		table->philos[i].last_meal_time = table->start_time;
-		if (pthread_create(&table->philos[i].thread_id, NULL, routine, &table->philos[i++]))
+		table->philos[i].last_meal_time = get_time();
+		if (pthread_create(&table->philos[i].thread_id, NULL, routine, &table->philos[i]))
 			return (table->someone_died = TRUE, destroy_table(table, \
-				table->nb_philo, table->nb_philo), FALSE);
+				table->nb_philo, i), FALSE);
+		i++;
 	}
-		// idk if i ma going to use a monitor thread or not
-		// but this is where i will create its thread
-		// the  is hould while on the philos (threads) and detach them ?
-	return (TRUE);	
+	if (pthread_create(&table->monitor, NULL, monitor, table))
+		return (table->someone_died = TRUE, destroy_table(table, i, i));
+	i = 0;
+	while (i < table->nb_philo)
+		pthread_join(table->philos[i].thread_id, NULL);
+	pthread_join(table->monitor, NULL);
+	return (TRUE);
+}
+
+int	simulation_init(t_table *table, int ac, char **av)
+{
+	if (init_table(table, ac, av) == FALSE)
+		return (FALSE);
+	if (init_philos(table) == FALSE)
+		return (FALSE);
+	if (simulation(table) == FALSE)
+		return (FALSE);
+	return (TRUE);
 }

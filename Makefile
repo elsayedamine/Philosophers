@@ -1,11 +1,12 @@
 NAME := philo
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g
 
 sources = \
 		main.c \
+		simulation.c \
 		simulation_init.c \
-		simulation_parse.c \
+		simulation_parse.c
 
 object = $(sources:.c=.o)
 

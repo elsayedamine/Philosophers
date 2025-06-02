@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/01 22:31:31 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:57:42 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 
 # define FALSE 0
 # define TRUE 1
+# define EAT "is eating"
+# define FORK "has taken a fork"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DIE "died"
 
 struct s_table;
 
@@ -43,6 +48,7 @@ typedef struct s_philo
 	struct s_table	*table;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	eat_lock;
+	pthread_mutex_t	last_meal_lock;
 	// maybe a mutex to protect last_meal_time
 }					t_philo;
 
@@ -55,15 +61,27 @@ typedef struct s_table
 	int				meals_required;
 	long			start_time;
 	int				someone_died;
+	int				all_full;
 	int				itr;
 	int				cleanup;
+	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	death_lock;
+	pthread_mutex_t	meal_check;
 	t_philo			*philos;
 }					t_table;
 
 int	myatoi(char *str);
 int	simulation_init(t_table *table, int ac, char **av);
+long	get_time(void);
+void	print_state(t_philo *philo, char *msg);
+void	*monitor(void *table);
+void	*routine(void *arg);
+int	simulation(t_table *table);
+int	simulation_init(t_table *table, int ac, char **av);
+int	init_philos	(t_table *table);
+int	init_table(t_table *table, int ac, char **av);
+int	destroy_table(t_table *table, int count, int philo_count);
 
 #endif
