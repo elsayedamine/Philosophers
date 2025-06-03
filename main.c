@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 01:45:07 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/03 02:24:17 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	main(int ac, char **av)
 	if (ac != 6 && ac != 5)
 		return (write(2, ARG_ERR, 89), EXIT_FAILURE);
 	///////////////////////////////////////////////////////////////
-	simulation_init(&table, ac, av);
 	if (simulation_init(&table, ac, av) == FALSE)
 		return (EXIT_FAILURE);
 	if (table.nb_philo == 1)
