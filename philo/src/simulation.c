@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:42:00 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 14:20:31 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:49:30 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	*monitor(void *table)
 		t->all_full = 0;
 		pthread_mutex_unlock(&t->death_lock);
 		check_death(t, get_time());
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }
@@ -80,15 +80,11 @@ void	*routine(void *arg)
 
 	p = (t_philo *)arg;
 	if (p->id % 2 == 0)
-		usleep(100);
+		usleep(1000);
 	while (TRUE)
 	{
-		pthread_mutex_lock(&p->table->death_lock);
-		if (p->table->someone_died || p->table->all_full == p->table->nb_philo)
-			return (pthread_mutex_unlock(&p->table->death_lock), NULL);
-		pthread_mutex_unlock(&p->table->death_lock);
 		if (is_dead_or_full(p))
-			continue ;
+			return (NULL);
 		if (!take_forks(p))
 			continue ;
 		if (process_eating(p) == FALSE)
@@ -97,7 +93,7 @@ void	*routine(void *arg)
 			continue ;
 		if (process_thinking(p) == FALSE)
 			continue ;
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }
