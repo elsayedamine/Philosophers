@@ -2,6 +2,7 @@
     "files.associations": {
         "philo.h": "c",
         "unistd.h": "c",
-        "iomanip": "c"
+        "iomanip": "c",
+        "cstdlib": "c"
     }
 }

@@ -6,11 +6,11 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:38:25 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/02 15:30:24 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/02 22:51:59 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 size_t	ft_strlen(char const *str)
 {

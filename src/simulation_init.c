@@ -6,11 +6,19 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/02 19:29:25 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:47:09 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
+
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
 
 int	destroy_table(t_table *table, int count, int philo_count)
 {
@@ -42,6 +50,7 @@ int	destroy_table(t_table *table, int count, int philo_count)
 	if (table->cleanup >= 5)
 		while (i < philo_count)
 			pthread_join(table->philos[i++].thread_id, NULL);
+	free(table->forks);
 	return (FALSE);
 }
 
@@ -101,37 +110,12 @@ int	init_philos	(t_table *table)
 	return (TRUE);
 }
 
-int	simulation(t_table *table)
-{
-	int	i;
-
-	table->start_time = get_time();
-	i = 0;
-	table->cleanup++;
-	while (i < table->nb_philo)
-	{
-		table->philos[i].last_meal_time = get_time();
-		if (pthread_create(&table->philos[i].thread_id, NULL, routine, &table->philos[i]))
-			return (table->someone_died = TRUE, destroy_table(table, \
-				table->nb_philo, i), FALSE);
-		i++;
-	}
-	if (pthread_create(&table->monitor, NULL, monitor, table))
-		return (table->someone_died = TRUE, destroy_table(table, i, i));
-	i = 0;
-	while (i < table->nb_philo)
-		pthread_join(table->philos[i].thread_id, NULL);
-	pthread_join(table->monitor, NULL);
-	return (TRUE);
-}
-
 int	simulation_init(t_table *table, int ac, char **av)
 {
 	if (init_table(table, ac, av) == FALSE)
 		return (FALSE);
 	if (init_philos(table) == FALSE)
 		return (FALSE);
-	if (simulation(table) == FALSE)
-		return (FALSE);
+	table->cleanup++;
 	return (TRUE);
 }

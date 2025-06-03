@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/02 18:57:42 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/02 22:34:39 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
 # define DIE "died"
+# define ARG_ERR "Usage:\n\t./philo number_of_philos time_to_die \
+time_to_eat time_to_sleep [meals_required]\n"
 
 struct s_table;
 
@@ -77,11 +79,17 @@ int	simulation_init(t_table *table, int ac, char **av);
 long	get_time(void);
 void	print_state(t_philo *philo, char *msg);
 void	*monitor(void *table);
-void	*routine(void *arg);
-int	simulation(t_table *table);
+void	*routine(void *philo);
+int	simulation_play(t_table *table);
 int	simulation_init(t_table *table, int ac, char **av);
 int	init_philos	(t_table *table);
 int	init_table(t_table *table, int ac, char **av);
 int	destroy_table(t_table *table, int count, int philo_count);
+
+int	process_eating(t_philo *p);
+int	process_sleeping(t_philo *p);
+int	process_thinking(t_philo *p);
+int	is_dead_or_full(t_philo *p);
+int	take_forks(t_philo *p);
 
 #endif

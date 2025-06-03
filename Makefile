@@ -4,9 +4,10 @@ CFLAGS := -Wall -Wextra -Werror -g
 
 sources = \
 		main.c \
-		simulation.c \
-		simulation_init.c \
-		simulation_parse.c
+		src/simulation.c \
+		src/simulation_init.c \
+		src/simulation_parse.c \
+		src/actions.c
 
 object = $(sources:.c=.o)
 
