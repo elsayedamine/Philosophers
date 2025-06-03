@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 11:14:18 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:49:50 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ time_to_eat time_to_sleep [meals_required]\n"
 
 struct s_table;
 
-typedef enum e_enum
-{
-	MALLOC,
-	THREAD_INIT,
-}	t_err;
-
 typedef struct s_philo
 {
 	int				id;
@@ -50,7 +44,6 @@ typedef struct s_philo
 	struct s_table	*table;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	eat_lock;
-	pthread_mutex_t	last_meal_lock;
 }					t_philo;
 
 typedef struct s_table
@@ -90,5 +83,8 @@ int		process_sleeping(t_philo *p);
 int		process_thinking(t_philo *p);
 int		is_dead_or_full(t_philo *p);
 int		take_forks(t_philo *p);
+int		init_mutexes(t_table *t);
+int		init_table(t_table *t, int ac, char **av);
+int		fill_table(t_table *t, int ac, char **av);
 
 #endif

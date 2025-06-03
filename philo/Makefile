@@ -1,13 +1,14 @@
 NAME := philo
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror -fsanitize=thread -g
 
 sources = \
 		src/philo.c \
 		src/simulation.c \
 		src/simulation_init.c \
 		src/simulation_parse.c \
-		src/actions.c
+		src/actions.c \
+		src/init_table.c
 
 object = $(sources:.c=.o)
 

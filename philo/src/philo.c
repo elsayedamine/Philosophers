@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 10:52:34 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:31:58 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	*one_philo(t_table *t)
 {
+	t->start_time = get_time();
 	pthread_mutex_lock(t->forks);
 	print_state(t->philos, FORK);
 	pthread_mutex_unlock(t->forks);
@@ -28,7 +29,6 @@ int	main(int ac, char **av)
 
 	if (ac != 6 && ac != 5)
 		return (write(2, ARG_ERR, 89), EXIT_FAILURE);
-	///////////////////////////////////////////////////////////////
 	if (simulation_init(&table, ac, av) == FALSE)
 		return (EXIT_FAILURE);
 	if (table.nb_philo == 1)
