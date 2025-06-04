@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 11:42:00 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:32:33 by aelsayed         ###   ########.fr       */
+/*   Created: 2025/06/04 02:49:28 by aelsayed          #+#    #+#             */
+/*   Updated: 2025/06/04 02:50:07 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 void	check_death(t_table *t, long now)
 {
-	int	i;
-
-	i = 0;
-	while (i < t->nb_philo)
+	t->i = 0;
+	while (t->i < t->nb_philo)
 	{
 		pthread_mutex_lock(&t->meal_check);
-		if (now - t->philos[i].last_meal_time >= t->time_to_die)
+		if (now - t->philos[t->i].last_meal_time >= t->time_to_die)
 		{
 			pthread_mutex_lock(&t->death_lock);
 			t->someone_died = TRUE;
 			pthread_mutex_unlock(&t->death_lock);
 			pthread_mutex_lock(&t->print_lock);
-			printf("%ld %d died\n", get_time() - t->start_time, t->philos[i].id);
+			printf("%ld %d died\n", get_time() - \
+			t->start_time, t->philos[t->i].id);
 			pthread_mutex_unlock(&t->print_lock);
 			pthread_mutex_unlock(&t->meal_check);
 			return ;
 		}
-		if (t->meals_required != -1 && t->philos[i].meals_eaten >= t->meals_required)
+		if (t->meals_required != -1 && \
+			t->philos[t->i].meals_eaten >= t->meals_required)
 			t->all_full++;
-		i++;
+		t->i++;
 		pthread_mutex_unlock(&t->meal_check);
 	}
-	if (t->someone_died || (t->meals_required != -1 && t->all_full == t->nb_philo))
+	if (is_dead_or_full(t->philos))
 		return (pthread_mutex_lock(&t->death_lock), \
 		t->someone_died = 1, (void)pthread_mutex_unlock(&t->death_lock));
 }
@@ -44,7 +44,7 @@ void	check_death(t_table *t, long now)
 void	*monitor(void *table)
 {
 	t_table	*t;
-	
+
 	t = (t_table *)table;
 	while (TRUE)
 	{
@@ -52,7 +52,7 @@ void	*monitor(void *table)
 		if (t->someone_died || t->all_full == t->nb_philo)
 		{
 			pthread_mutex_unlock(&t->death_lock);
-			break;
+			break ;
 		}
 		t->all_full = 0;
 		pthread_mutex_unlock(&t->death_lock);

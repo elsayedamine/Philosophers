@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:32:40 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:02:46 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,47 +20,52 @@ long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	destroy_table(t_table *table, int count, int philo_count)
+void	destroy_first_mutexes(t_table *t, int count)
 {
-	int i;
-	int	end;
+	int	i;
 
 	i = 0;
 	while (i < count)
-		pthread_mutex_destroy(&table->forks[i++]);
-	free(table->forks);
-	if (table->cleanup >= 1)
-		pthread_mutex_destroy(&table->print_lock);
-	if (table->cleanup >= 2)
-		pthread_mutex_destroy(&table->death_lock);
-	// if (table->cleanup >= 3)
-	if (table->cleanup >= 3 && table->philos)
-		free(table->philos);
+		pthread_mutex_destroy(&t->forks[i++]);
+	free(t->forks);
+	if (t->cleanup >= 1)
+		pthread_mutex_destroy(&t->print_lock);
+	if (t->cleanup >= 2)
+		pthread_mutex_destroy(&t->death_lock);
+}
+
+int	destroy_table(t_table *table, int count, int philo_count)
+{
+	int	i;
+	int	end;
+
 	i = 0;
-	if (table->cleanup >= 5)
+	destroy_first_mutexes(table, count);
+	if (table->cleanup >= 3)
 	{
-		end = (table->cleanup > 5) * \
-			table->nb_philo + (table->cleanup == 5) + philo_count;
+		end = (table->cleanup > 3) * \
+			table->nb_philo + (table->cleanup == 3) + philo_count;
 		while (i < philo_count)
 			pthread_mutex_destroy(&table->philos[i++].meal_lock);
 		i = 0;
 		while (i < philo_count)
 			pthread_mutex_destroy(&table->philos[i++].eat_lock);
+		free(table->philos);
 	}
-	i = 0;
-	if (table->cleanup >= 6)
+	if (table->cleanup >= 4)
+		pthread_mutex_destroy(&table->meal_check);
+	if (table->cleanup >= 5)
 		while (i < philo_count)
 			pthread_join(table->philos[i++].thread_id, NULL);
 	return (FALSE);
 }
 
-int	init_philos	(t_table *t)
-{	
+int	init_philos(t_table *t)
+{
 	t->philos = malloc(sizeof(t_philo) * t->nb_philo);
 	if (!t->philos)
 		return (destroy_table(t, t->nb_philo, 0), FALSE);
 	t->i = 0;
-	t->cleanup++;
 	while (t->i < t->nb_philo)
 	{
 		t->philos[t->i].id = t->i + 1;
@@ -75,11 +80,11 @@ int	init_philos	(t_table *t)
 			return (destroy_table(t, t->nb_philo, t->i));
 		if (pthread_mutex_init(&t->philos[t->i].eat_lock, NULL))
 			return (destroy_table(t, t->nb_philo, t->i));
-		if (pthread_mutex_init(&t->meal_check, NULL))
-			return (destroy_table(t, t->nb_philo, t->i));
-		// adjust cleanup var for this new mutex_init
 		t->i++;
 	}
+	t->cleanup++;
+	if (pthread_mutex_init(&t->meal_check, NULL))
+		return (destroy_table(t, t->nb_philo, t->i));
 	return (TRUE);
 }
 
