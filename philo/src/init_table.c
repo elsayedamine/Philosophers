@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:22:06 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 13:37:15 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:13:48 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ int	init_mutexes(t_table *t)
 	while (t->i < t->nb_philo)
 		if (pthread_mutex_init(&t->forks[t->i++], NULL))
 			return (destroy_table(t, t->i - 1, 0));
+	t->cleanup++;
 	if (pthread_mutex_init(&t->print_lock, NULL))
 		return (destroy_table(t, t->nb_philo, 0));
+	t->cleanup++;
 	if (pthread_mutex_init(&t->death_lock, NULL))
-		return (t->cleanup++, destroy_table(t, t->nb_philo, 0));
-	return (TRUE);
+		return (destroy_table(t, t->nb_philo, 0));
+	return (t->cleanup++, TRUE);
 }
 
 int	init_table(t_table *t, int ac, char **av)
@@ -56,5 +58,5 @@ int	init_table(t_table *t, int ac, char **av)
 		return (FALSE);
 	if (init_mutexes(t) == FALSE)
 		return (FALSE);
-	return (t->cleanup++, TRUE);
+	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 13:49:50 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:23:23 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define ARG_ERR "Usage:\n\t./philo number_of_philos time_to_die \
 time_to_eat time_to_sleep [meals_required]\n"
 
-struct s_table;
+struct	s_table;
 
 typedef struct s_philo
 {
@@ -74,7 +74,7 @@ void	*monitor(void *table);
 void	*routine(void *philo);
 int		simulation_play(t_table *table);
 int		simulation_init(t_table *table, int ac, char **av);
-int		init_philos	(t_table *table);
+int		init_philos(t_table *table);
 int		init_table(t_table *table, int ac, char **av);
 int		destroy_table(t_table *table, int count, int philo_count);
 
@@ -86,5 +86,7 @@ int		take_forks(t_philo *p);
 int		init_mutexes(t_table *t);
 int		init_table(t_table *t, int ac, char **av);
 int		fill_table(t_table *t, int ac, char **av);
+int		take_forks(t_philo *p);
+void	leave_forks(t_philo *p);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/03 13:31:58 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:29:57 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	*one_philo(t_table *t)
 	destroy_table(t, t->nb_philo, t->nb_philo);
 	return (NULL);
 }
+
 int	main(int ac, char **av)
 {
 	t_table	table;
