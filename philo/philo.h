@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:23:23 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:17:42 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,27 @@ typedef struct s_table
 	t_philo			*philos;
 }					t_table;
 
+/*---------------------------- BUILDING ---------------------------*/
 int		myatoi(char *str);
-int		simulation_init(t_table *table, int ac, char **av);
-long	get_time(void);
-void	print_state(t_philo *philo, char *msg);
-void	*monitor(void *table);
-void	*routine(void *philo);
-int		simulation_play(t_table *table);
-int		simulation_init(t_table *table, int ac, char **av);
+int		init_table(t_table *t, int ac, char **av);
 int		init_philos(t_table *table);
-int		init_table(t_table *table, int ac, char **av);
+int		init_mutexes(t_table *t);
+int		fill_table(t_table *t, int ac, char **av);
 int		destroy_table(t_table *table, int count, int philo_count);
 
+/*---------------------------- ACTIONS ----------------------------*/
 int		process_eating(t_philo *p);
 int		process_sleeping(t_philo *p);
 int		process_thinking(t_philo *p);
-int		is_dead_or_full(t_philo *p);
-int		take_forks(t_philo *p);
-int		init_mutexes(t_table *t);
-int		init_table(t_table *t, int ac, char **av);
-int		fill_table(t_table *t, int ac, char **av);
 int		take_forks(t_philo *p);
 void	leave_forks(t_philo *p);
+
+/*--------------------------- SIMULATION --------------------------*/
+int		simulation_play(t_table *table);
+void	*routine(void *philo);
+void	*monitor(void *table);
+long	get_time(void);
+void	print_state(t_philo *philo, char *msg);
+int		is_dead_or_full(t_philo *p);
 
 #endif

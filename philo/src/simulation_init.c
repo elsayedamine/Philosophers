@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:01:16 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 03:02:46 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:14:06 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,5 @@ int	init_philos(t_table *t)
 	t->cleanup++;
 	if (pthread_mutex_init(&t->meal_check, NULL))
 		return (destroy_table(t, t->nb_philo, t->i));
-	return (TRUE);
-}
-
-int	simulation_init(t_table *table, int ac, char **av)
-{
-	if (init_table(table, ac, av) == FALSE)
-		return (FALSE);
-	if (init_philos(table) == FALSE)
-		return (FALSE);
-	table->cleanup++;
-	return (TRUE);
+	return (t->cleanup++, TRUE);
 }

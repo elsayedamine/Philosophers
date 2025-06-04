@@ -4,12 +4,11 @@ CFLAGS := -Wall -Wextra -Werror
 
 sources = \
 		src/philo.c \
+		src/init_table.c \
 		src/simulation.c \
 		src/simulation_init.c \
 		src/simulation_parse.c \
-		src/actions.c \
-		src/forks.c \
-		src/init_table.c
+		src/simulation_actions.c
 
 object = $(sources:.c=.o)
 

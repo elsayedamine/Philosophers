@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   simulation_actions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 02:21:58 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:22:42 by aelsayed         ###   ########.fr       */
+/*   Created: 2025/06/02 20:55:41 by aelsayed          #+#    #+#             */
+/*   Updated: 2025/06/04 03:11:16 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,40 @@ int	take_forks(t_philo *p)
 		leave_forks(p);
 		return (FALSE);
 	}
+	return (TRUE);
+}
+
+int	process_eating(t_philo *p)
+{
+	if (is_dead_or_full(p))
+	{
+		leave_forks(p);
+		return (FALSE);
+	}
+	print_state(p, EAT);
+	pthread_mutex_lock(&p->table->meal_check);
+	p->last_meal_time = get_time();
+	p->meals_eaten++;
+	pthread_mutex_unlock(&p->table->meal_check);
+	usleep(p->table->time_to_eat * 1000);
+	pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_unlock(p->right_fork);
+	return (TRUE);
+}
+
+int	process_sleeping(t_philo *p)
+{
+	if (is_dead_or_full(p))
+		return (FALSE);
+	print_state(p, SLEEP);
+	usleep(p->table->time_to_sleep * 1000);
+	return (TRUE);
+}
+
+int	process_thinking(t_philo *p)
+{
+	if (is_dead_or_full(p))
+		return (FALSE);
+	print_state(p, THINK);
 	return (TRUE);
 }

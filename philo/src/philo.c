@@ -6,11 +6,22 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:29:57 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:13:43 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+void	print_state(t_philo *philo, char *msg)
+{
+	pthread_mutex_lock(&philo->table->print_lock);
+	pthread_mutex_lock(&philo->table->death_lock);
+	if (philo->table->someone_died == FALSE)
+		printf("%ld %d %s\n", get_time() - \
+		philo->table->start_time, philo->id, msg);
+	pthread_mutex_unlock(&philo->table->death_lock);
+	pthread_mutex_unlock(&philo->table->print_lock);
+}
 
 void	*one_philo(t_table *t)
 {
@@ -30,7 +41,9 @@ int	main(int ac, char **av)
 
 	if (ac != 6 && ac != 5)
 		return (write(2, ARG_ERR, 89), EXIT_FAILURE);
-	if (simulation_init(&table, ac, av) == FALSE)
+	if (init_table(&table, ac, av) == FALSE)
+		return (EXIT_FAILURE);
+	if (init_philos(&table) == FALSE)
 		return (EXIT_FAILURE);
 	if (table.nb_philo == 1)
 		one_philo(&table);
@@ -38,10 +51,3 @@ int	main(int ac, char **av)
 		simulation_play(&table);
 	return (EXIT_SUCCESS);
 }
-
-// void precise_sleep(long ms)
-// {
-	// long start = get_time();
-	// while (get_time() - start < ms)
-		// usleep(100); // small sleep to reduce CPU use
-// }
