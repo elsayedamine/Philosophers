@@ -6,11 +6,23 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 02:49:28 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 02:50:07 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:23:14 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+int	is_dead_or_full(t_philo *p)
+{
+	int	res;
+
+	pthread_mutex_lock(&p->table->meal_check);
+	pthread_mutex_lock(&p->table->death_lock);
+	res = (p->table->someone_died || p->table->all_full == p->table->nb_philo);
+	pthread_mutex_unlock(&p->table->death_lock);
+	pthread_mutex_unlock(&p->table->meal_check);
+	return (res);
+}
 
 void	check_death(t_table *t, long now)
 {
@@ -60,18 +72,6 @@ void	*monitor(void *table)
 		usleep(500);
 	}
 	return (NULL);
-}
-
-int	is_dead_or_full(t_philo *p)
-{
-	int	res;
-
-	pthread_mutex_lock(&p->table->meal_check);
-	pthread_mutex_lock(&p->table->death_lock);
-	res = (p->table->someone_died || p->table->all_full == p->table->nb_philo);
-	pthread_mutex_unlock(&p->table->death_lock);
-	pthread_mutex_unlock(&p->table->meal_check);
-	return (res);
 }
 
 void	*routine(void *arg)

@@ -6,11 +6,19 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 03:13:43 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:23:19 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
 
 void	print_state(t_philo *philo, char *msg)
 {

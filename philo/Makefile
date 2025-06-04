@@ -4,7 +4,6 @@ CFLAGS := -Wall -Wextra -Werror
 
 sources = \
 		src/philo.c \
-		src/init_table.c \
 		src/simulation.c \
 		src/simulation_init.c \
 		src/simulation_parse.c \

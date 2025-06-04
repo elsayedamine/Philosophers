@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 03:17:42 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:23:28 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_table
 int		myatoi(char *str);
 int		init_table(t_table *t, int ac, char **av);
 int		init_philos(t_table *table);
-int		init_mutexes(t_table *t);
 int		fill_table(t_table *t, int ac, char **av);
 int		destroy_table(t_table *table, int count, int philo_count);
 
