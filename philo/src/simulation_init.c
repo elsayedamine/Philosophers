@@ -29,14 +29,11 @@ void	destroy_first_mutexes(t_table *t, int count)
 int	destroy_table(t_table *table, int count, int philo_count)
 {
 	int	i;
-	int	end;
 
 	i = 0;
 	destroy_first_mutexes(table, count);
 	if (table->cleanup >= 3)
 	{
-		end = (table->cleanup > 3) * \
-			table->nb_philo + (table->cleanup == 3) + philo_count;
 		while (i < philo_count)
 			pthread_mutex_destroy(&table->philos[i++].meal_lock);
 		i = 0;
