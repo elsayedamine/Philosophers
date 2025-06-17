@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simulation_parse.c                                 :+:      :+:    :+:   */
+/*   atoi.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sayed <sayed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ahakki <ahakki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 17:38:25 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/17 13:25:07 by sayed            ###   ########.fr       */
+/*   Created: 2025/06/03 13:54:27 by ahakki            #+#    #+#             */
+/*   Updated: 2025/06/03 14:57:05 by ahakki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
 size_t	ft_strlen(char const *str)
 {
@@ -43,8 +43,8 @@ int	ft_strncmp(char const *s1, char const *s2, size_t n)
 int	ft_isdigit(int n)
 {
 	if (n >= '0' && n <= '9')
-		return (TRUE);
-	return (FALSE);
+		return (1);
+	return (0);
 }
 
 int	onlydigit(char *str)
@@ -53,14 +53,14 @@ int	onlydigit(char *str)
 
 	i = 0;
 	if (!str)
-		return (FALSE);
+		return (0);
 	if (str[0] == '+')
 		i++;
 	while (str[i] && (ft_isdigit(str[i])))
 		i++;
 	if (!str[i])
-		return (TRUE);
-	return (FALSE);
+		return (0);
+	return (1);
 }
 
 int	myatoi(char *str)
@@ -72,7 +72,7 @@ int	myatoi(char *str)
 	i = 0;
 	sign = 1;
 	n = 0;
-	if (!str || !*str || onlydigit(str) == FALSE || ft_strlen(str) > 11)
+	if (!str || !*str || onlydigit(str) == 1 || ft_strlen(str) > 11)
 		return (-1);
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;

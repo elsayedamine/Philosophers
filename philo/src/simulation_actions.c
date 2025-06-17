@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation_actions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sayed <sayed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:55:41 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 03:23:18 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:19:09 by sayed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	leave_forks(t_philo *p)
 	}
 }
 
-int	take_forks(t_philo *p)
+int		take_forks(t_philo *p)
 {
 	if (is_dead_or_full(p))
 		return (FALSE);
