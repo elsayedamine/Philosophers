@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 23:50:12 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/17 23:24:13 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:04:01 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	init_table(t_table *t, int ac, char **av)
 	t->death = sem_open("/death", O_CREAT, 0644, 1);
 	if (t->death == SEM_FAILED)
 		return (cleanup(t, 2));
-	t->meal = sem_open("/meal", O_CREAT, 0644, 1);
-	if (t->meal == SEM_FAILED)
-		return (cleanup(t, 4));
+	// t->meal = sem_open("/meal", O_CREAT, 0644, 1);
+	// if (t->meal == SEM_FAILED)
+	// 	return (cleanup(t, 4));
 	return (TRUE);
 }
 

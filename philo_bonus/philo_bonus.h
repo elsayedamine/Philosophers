@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sayed <sayed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/17 13:00:26 by sayed            ###   ########.fr       */
+/*   Updated: 2025/06/18 01:31:37 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		process_sleeping(t_philo *p);
 int		process_thinking(t_philo *p);
 int		take_forks(t_philo *p);
 void	leave_forks(t_philo *p);
-
+int	check_death(t_philo *p);
 /*--------------------------- SIMULATION --------------------------*/
 
 int		simulation(t_table *table);
