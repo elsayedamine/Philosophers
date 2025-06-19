@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 23:50:12 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/18 01:04:01 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:09:47 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	fill_table(t_table *t, int ac, char **av)
 	t->i = 0;
 	t->all_full = 0;
 	t->start_time = 0;
-	t->someone_died = FALSE;
 	t->nb_philo = myatoi(av[1]);
 	if (t->nb_philo > 15000)
 		return (write(2, "Excessive Number Of Philosophers !\n", 35));
@@ -53,7 +52,7 @@ int	cleanup(t_table *t, int i)
 	if (i == 0)
 		return (sem_unlink("/forks"), sem_unlink("/print"), \
 			sem_unlink("/death"), sem_unlink("/meal"), \
-				exit(1), free(t->philos), FALSE);
+				free(t->philos), FALSE);
 	return (FALSE);
 }
 
@@ -74,9 +73,9 @@ int	init_table(t_table *t, int ac, char **av)
 	t->death = sem_open("/death", O_CREAT, 0644, 1);
 	if (t->death == SEM_FAILED)
 		return (cleanup(t, 2));
-	// t->meal = sem_open("/meal", O_CREAT, 0644, 1);
-	// if (t->meal == SEM_FAILED)
-	// 	return (cleanup(t, 4));
+	t->meal = sem_open("/meal", O_CREAT, 0644, 1);
+	if (t->meal == SEM_FAILED)
+		return (cleanup(t, 4));
 	return (TRUE);
 }
 

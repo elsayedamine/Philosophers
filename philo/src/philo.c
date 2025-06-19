@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:00:40 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/04 03:23:19 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:56:05 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_state(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->table->print_lock);
 }
 
-void	*one_philo(t_table *t)
+void	one_philo(t_table *t)
 {
 	t->start_time = get_time();
 	pthread_mutex_lock(t->forks);
@@ -40,7 +40,6 @@ void	*one_philo(t_table *t)
 	usleep(t->time_to_die * 1000);
 	printf("%ld %d died\n", get_time() - t->start_time, t->philos[0].id);
 	destroy_table(t, t->nb_philo, t->nb_philo);
-	return (NULL);
 }
 
 int	main(int ac, char **av)

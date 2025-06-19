@@ -1,6 +1,6 @@
 NAME := philo_bonus
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror
 
 sources = \
 		src/simulation_init_bonus.c \

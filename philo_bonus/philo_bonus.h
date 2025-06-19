@@ -6,12 +6,12 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/18 01:31:37 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:02:59 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <pthread.h>
 # include <stdio.h>
@@ -38,19 +38,6 @@ time_to_eat time_to_sleep [meals_required]\n"
 
 struct	s_table;
 
-// typedef struct s_philo
-// {
-// 	int				id;
-// 	int				meals_eaten;
-// 	long			last_meal_time;
-// 	struct s_table	*table;
-//	pthread_t		thread_id; (i used process id PId instead)
-//	pthread_mutex_t	*left_fork; (no need because all forks are in the middle)
-//	pthread_mutex_t	*right_fork; (no need because all forks are in the middle)
-// 	pthread_mutex_t	meal_lock; (combined in the death thread)
-// 	pthread_mutex_t	eat_lock; (combined in the death thread)
-// }					t_philo;
-
 typedef struct s_philo
 {
 	int				id;
@@ -58,6 +45,7 @@ typedef struct s_philo
 	long			last_meal_time;
 	pid_t			pid;
 	pthread_t		death;
+	pthread_t		supervisor;
 	struct s_table	*t;
 }					t_philo;
 
@@ -69,7 +57,6 @@ typedef struct s_table
 	int			time_to_sleep;
 	int			meals_required;
 	long		start_time;
-	int			someone_died;
 	int			all_full;
 	int			i;
 	pid_t		*pids;
@@ -93,9 +80,9 @@ int		cleanup(t_table *table, int count);
 int		process_eating(t_philo *p);
 int		process_sleeping(t_philo *p);
 int		process_thinking(t_philo *p);
-int		take_forks(t_philo *p);
-void	leave_forks(t_philo *p);
-int	check_death(t_philo *p);
+int		check_death(t_philo *p);
+void	one_philo(t_table *t);
+
 /*--------------------------- SIMULATION --------------------------*/
 
 int		simulation(t_table *table);
@@ -103,6 +90,5 @@ void	routine(t_philo *philo);
 void	monitor(t_table *table);
 long	get_time(void);
 void	print_state(t_philo *philo, char *msg);
-int		is_dead_or_full(t_philo *p);
 
 #endif

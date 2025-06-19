@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "philo_bonus.h": "c"
+        "philo_bonus.h": "c",
+        "iomanip": "c"
     },
     "makefile.configureOnOpen": false
 }
