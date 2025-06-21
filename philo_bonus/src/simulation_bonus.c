@@ -38,12 +38,13 @@ void	routine(t_philo *p)
 {
 	p->last_meal_time = get_time();
 	if (p->id % 2)
-		usleep(300);
+		usleep(p->t->time_to_eat * 500);
 	while (TRUE)
 	{
 		check_death(p);
 		sem_wait(p->t->forks);
 		print_state(p, FORK);
+		usleep(100);
 		sem_wait(p->t->forks);
 		print_state(p, FORK);
 		if (process_eating(p) == FALSE)
