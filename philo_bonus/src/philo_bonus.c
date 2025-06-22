@@ -6,11 +6,22 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 23:55:10 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/19 19:02:34 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:36:13 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
+
+void	close_sem(t_table *t)
+{
+	sem_close(t->forks);
+	sem_unlink("/forks");
+	sem_close(t->print);
+	sem_unlink("/print");
+	sem_close(t->death);
+	sem_unlink("/death");
+	return ;
+}
 
 int	main(int ac, char **av)
 {

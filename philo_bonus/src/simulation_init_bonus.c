@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 23:50:12 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/19 18:09:47 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:37:47 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,21 @@ int	fill_table(t_table *t, int ac, char **av)
 int	cleanup(t_table *t, int i)
 {
 	if (i == -1)
-		return (sem_unlink("/forks"), sem_unlink("/print"), \
-			sem_unlink("/death"), 0);
+		return (close_sem(t), 0);
 	if (i == 1)
-		return (sem_unlink("/forks"), \
+		return (sem_close(t->forks), sem_unlink("/forks"), \
 			perror("sem_open /print"), exit(1), FALSE);
 	if (i == 2)
-		return (sem_unlink("/forks"), sem_unlink("/print"), \
-			perror("sem_open /death"), exit(1), FALSE);
+		return (sem_close(t->forks), sem_unlink("/forks"), \
+			sem_close(t->print), sem_unlink("/print"), \
+				perror("sem_open /death"), exit(1), FALSE);
 	if (i == 3)
-		return (sem_unlink("/forks"), sem_unlink("/print"), \
-			sem_unlink("/death"), exit(1), FALSE);
+		return (close_sem(t), exit(1), FALSE);
 	if (i == 4)
-		return (sem_unlink("/forks"), sem_unlink("/print"), \
-			sem_unlink("/death"), perror("sem_open /meal"), \
-				exit(1), FALSE);
+		return (close_sem(t), perror("sem_open /meal"), exit(1), FALSE);
 	if (i == 0)
-		return (sem_unlink("/forks"), sem_unlink("/print"), \
-			sem_unlink("/death"), sem_unlink("/meal"), \
-				free(t->philos), FALSE);
+		return (close_sem(t), sem_close(t->meal), sem_unlink("/meal"), \
+			free(t->philos), FALSE);
 	return (FALSE);
 }
 

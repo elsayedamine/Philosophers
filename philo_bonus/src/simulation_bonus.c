@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:59:40 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/19 18:50:59 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:49:55 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	check_death(t_philo *p)
 		printf("%ld %d died\n", get_time() - p->t->start_time, p->id);
 		sem_post(p->t->forks);
 		sem_post(p->t->forks);
+		cleanup(p->t, 0);
 		exit(1);
 	}
 	return (TRUE);
@@ -55,6 +56,7 @@ void	routine(t_philo *p)
 			continue ;
 		usleep(100);
 	}
+	cleanup(p->t, 0);
 	exit(0);
 }
 

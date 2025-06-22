@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:33:12 by sayed             #+#    #+#             */
-/*   Updated: 2025/06/19 19:02:44 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:49:25 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	process_eating(t_philo *p)
 	sem_post(p->t->forks);
 	sem_post(p->t->forks);
 	if (p->t->meals_required > 0 && p->meals_eaten >= p->t->meals_required)
+	{
+		cleanup(p->t, 0);
 		exit(0);
+	}
 	return (TRUE);
 }
 

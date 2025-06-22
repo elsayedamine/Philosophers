@@ -6,7 +6,7 @@
 /*   By: aelsayed <aelsayed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:16:55 by aelsayed          #+#    #+#             */
-/*   Updated: 2025/06/19 19:02:59 by aelsayed         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:35:24 by aelsayed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		init_table(t_table *t, int ac, char **av);
 int		init_philos(t_table *table);
 int		fill_table(t_table *t, int ac, char **av);
 int		cleanup(t_table *table, int count);
+void	close_sem(t_table *table);
 
 /*---------------------------- ACTIONS ----------------------------*/
 
